@@ -78,13 +78,16 @@ def cas_v3_samlValidate(self):
 
     try:
         if request.method != 'POST':
-            raise Exception('POST method is required')
+            raise Exception('POST method is required for this endPoint')
 
         target = request.args.get('TARGET', None)
         if target is None:
             raise Exception('TARGET URN is required')
 
         raw_xml = request.get_data()
+        if not raw_xml:
+            raise Exception('XML Body is required')
+            
         xml = CASSamlRequest(raw_xml.decode('utf-8'))
         xml.is_valid_request()
 
