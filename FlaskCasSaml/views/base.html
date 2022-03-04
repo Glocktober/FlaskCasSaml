@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}CAS{% endblock %} </title>
+    <script src="https://www.w3schools.com/lib/w3.js"></script>
+ <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<script>
+function cycle(){
+  w3.addClass('#card','spinnerA')
+}
+</script>
+<style>
+    {% include 'css/spinner.css' %}
+    {% include 'css/proj.css' %}
+</style>
+{% block head %}
+{% endblock head %}
+</head>
+<body>
+{% block header %}{% endblock header %}
+{% block content %}{% endblock content %}
+{% block footer %}{% endblock footer %}
+</body>
+</html>

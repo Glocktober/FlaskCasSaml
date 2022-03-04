@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header />
+  <SOAP-ENV:Body>
+    <Response xmlns="urn:oasis:names:tc:SAML:1.0:protocol" xmlns:saml="urn:oasis:names:tc:SAML:1.0:assertion"
+    xmlns:samlp="urn:oasis:names:tc:SAML:1.0:protocol" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" IssueInstant="{{issue_instant}}"
+    MajorVersion="1" MinorVersion="1" Recipient="{{service_ticket.service}}" ResponseID="{{response_id}}">
+      <Status>
+        <StatusCode Value="samlp:Success"></StatusCode>
+      </Status>
+      <Assertion xmlns="urn:oasis:names:tc:SAML:1.0:assertion" AssertionID="{{response_id}}"
+      IssueInstant="{{issue_instant}}" Issuer="localhost" MajorVersion="1" MinorVersion="1">
+        <Conditions NotBefore="{{issue_instant}}" NotOnOrAfter="{{expires_after}}">
+          <AudienceRestrictionCondition>
+            <Audience>{{service_ticket.service}}</Audience>
+          </AudienceRestrictionCondition>
+        </Conditions>
+        <AttributeStatement>
+          <Subject>
+            <NameIdentifier>{{service_ticket.username}}</NameIdentifier>
+            <SubjectConfirmation>
+              <ConfirmationMethod>urn:oasis:names:tc:SAML:1.0:cm:artifact</ConfirmationMethod>
+            </SubjectConfirmation>
+          </Subject>
+{%-     for k,v in service_ticket.details.items() %}
+          <Attribute AttributeName="{{k}}" AttributeNamespace="http://www.ja-sig.org/products/cas/">
+{%-      if v is iterable and v is not string    %}
+{%-          for vv in v                          %}
+            <AttributeValue>{{xmlesc(vv)|e}}</AttributeValue>
+{%-          endfor                              %}
+{%-      else                                    %}
+            <AttributeValue>{{xmlesc(v)|e}}</AttributeValue>
+{%-      endif                                   %}
+          </Attribute>
+{%-    endfor                                    %}
+          <Attribute AttributeName="isFromNewLogin" AttributeNamespace="http://www.ja-sig.org/products/cas/">
+            <AttributeValue>{{'true' if service_ticket.creds_presented else 'false'}}</AttributeValue>
+          </Attribute>
+          <Attribute AttributeName="authenticationDate" AttributeNamespace="http://www.ja-sig.org/products/cas/">
+            <AttributeValue>{{auth_instant}}</AttributeValue>
+          </Attribute>       
+      </AttributeStatement>
+        <AuthenticationStatement AuthenticationInstant="{{auth_instant}}" AuthenticationMethod="urn:oasis:names:tc:SAML:1.0:am:password">
+          <Subject>
+            <NameIdentifier>{{service_ticket.username}}</NameIdentifier>
+            <SubjectConfirmation>
+              <ConfirmationMethod>urn:oasis:names:tc:SAML:1.0:cm:artifact</ConfirmationMethod>
+            </SubjectConfirmation>
+          </Subject>
+        </AuthenticationStatement>
+      </Assertion>
+    </Response>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

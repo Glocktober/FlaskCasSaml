@@ -1,0 +1,28 @@
+<cas:serviceResponse xmlns:cas="http://www.yale.edu/tp/cas">
+<cas:authenticationSuccess>
+<cas:user>{{xmlesc(service_ticket.username)|e}}</cas:user>
+{% if service_ticket.details -%}
+<cas:attributes>
+ {%   for k,v in service_ticket.details.items()      -%}
+ {%       if v is iterable and v is not string       -%}
+ {%          for vv in v                             -%}
+ <cas:{{k}}>{{xmlesc(vv)|e}}</cas:{{k}}>
+ {%          endfor                                  -%}
+ {%       else                                       -%}
+ <cas:{{k}}>{{xmlesc(v)|e}}</cas:{{k}}>
+ {%       endif                                      -%}
+ {%   endfor                                         -%}
+</cas:attributes>
+{%- endif                                           -%}
+{%- if service_ticket.pgtiou                        %}
+<cas:proxyGrantingTicket>{{xmlesc(service_ticket.pgtiou)|e}}</cas:proxyGrantingTicket>
+{% endif -%}
+{% if service_ticket.is_proxy_ticket -%}
+<cas:proxies>
+{%    for proxy in service_ticket.proxies -%}
+<cas:proxy>{{xmlesc(proxy)|e}}</cas:proxy>
+{%    endfor -%}
+</cas:proxies>
+{% endif -%}
+</cas:authenticationSuccess>
+</cas:serviceResponse>

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}{{username}} Logged In{% endblock title %}
+{% block head %}
+<script>
+  function goBack() {
+    window.history.back();
+  }
+  </script>
+  <style>
+    .hh:hover {
+        background-color:paleturquoise;
+    }
+    .ab { background: aliceblue;}
+    </style>
+{% endblock head %}
+  {% block content %}
+  <img class="img-center" width="35%" src="/assets/img/logo_occ_modern.png" alt="" srcset="">
+  
+  <div class="w3-col l6 m8 s12 " style="margin:auto; float:none;">
+    <div id="card" class="w3-card-4  w3-margin ab" style="">
+      <div class="w3-container  ">
+        <h3 class="w3-center">OCC CAS login</h3>
+        <h2 class="w3-center w3-text-blue">{{username}}</h2> 
+        {% if attrs.sn and attrs.givenname %}
+        <p class="w3-center"><span class="w3-xlarge">
+          {{attrs.givenname + ' ' + attrs.sn }}
+        </span>
+           <i>You are logged in
+        </i> </p>
+        {% endif %}
+        </div>
+          <a href="{{logouturl}}" onclick="cycle()" class="w3-button w3-margin-bottom w3-pale-red w3-hover-red w3-round" style="margin:auto; display:block;width:30%;">Log out</a>
+
+        <div class="w3-container w3-border-top w3-pale-green ">
+          <p class="w3-center">
+            Need Help? Contact the Help Desk at x2222
+          </p>
+        </div>
+          
+          </div>
+      {% endblock content %}
+

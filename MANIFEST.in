@@ -1,0 +1,5 @@
+
+recursive-include docs *.md
+include *.md
+recursive-include src *.xml
+include requirements.txt

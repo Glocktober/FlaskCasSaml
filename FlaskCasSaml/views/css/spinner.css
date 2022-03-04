@@ -1,0 +1,22 @@
+.spinnerA:before{
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 160px;
+    width: 160px;
+    margin-top: -80px;
+    margin-left: -80px;
+    border-radius: 50%;
+    border: 9px dotted transparent;
+    border-top: 8px dotted skyblue;
+    border-right-color: dodgerblue;
+    animation: spinner 1.0s linear infinite;
+    z-index: 100;
+}
+@keyframes spinner{
+    to {
+        transform: rotate(360deg);
+    }
+}
