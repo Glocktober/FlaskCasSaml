@@ -77,8 +77,10 @@ def cas_v3_samlValidate(self):
     """ CAS v3 /cas/samlValidate - backchannel service_ticket validation (SAML1.1 response). """
 
     try:
-        target = request.args.get('TARGET', None)
+        if request.method != 'POST':
+            raise Exception('POST method is required')
 
+        target = request.args.get('TARGET', None)
         if target is None:
             raise Exception('TARGET URN is required')
 

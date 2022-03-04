@@ -37,9 +37,11 @@ class CasTicketManager:
         # verify SSL when issuing PgtIOU
         self.sslverify = config.get('verify_ssl', True)
 
-        # Enable/disable proxy support
+        # Enable/disable proxy support (def: enabled)
         self.cas_proxy_support = config.get('cas_proxy_support', True)
 
+        # Enable/disable samlValidate support (def: disabled)
+        self.cas_samlValidate_support = config.get('cas_samlValidate', False)
 
     def issue_tgt_ticket_hook(self, username, attrs):
         """ Hook establishing Ticket Granting Ticket for authed user. """

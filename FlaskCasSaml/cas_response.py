@@ -1,4 +1,5 @@
 import datetime
+import json
 import time
 from uuid import uuid4
 
@@ -201,9 +202,11 @@ class CASResponse:
 
 class CAS_common(Response):
 
-    def __init__(self):
+    def __init__(self,dat=b''):
 
         super().__init__()
+
+        self.data = dat
         
         self.headers['Cache-Control'] = 'no-store no-cache'
         self.headers['Pragma'] = 'no-cache'
@@ -214,14 +217,14 @@ class CAS_common(Response):
         """ as XML """
 
         self.headers['Content-Type'] = 'application/xml'
-        self.response = xml
+        self.data = xml
         return self
 
     def asHTML(self, html):
         """ as HTML """
 
         self.headers['Content-Type'] = 'text/html'
-        self.response = html
+        self.data = html
         return self
 
 
@@ -229,7 +232,7 @@ class CAS_common(Response):
         """ as TXT """
 
         self.headers['Content-Type'] = 'text/plain'
-        self.response = txt
+        self.data = txt
         return self
         
 
@@ -237,5 +240,5 @@ class CAS_common(Response):
         """ as JSON """
 
         self.headers['Content-Type'] = 'application/json'
-        self.response = json
+        self.data = json.dumps(js)
         return self

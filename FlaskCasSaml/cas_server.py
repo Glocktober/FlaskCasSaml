@@ -71,12 +71,22 @@ class CasBridge(CasTicketManager, Blueprint):
             endpoint='p3serviceValidate',
             view_func=self.cas_v2_serviceValidate
         )
-        self.add_url_rule(
-            '/cas/samlValidate',
-            endpoint='samlvalidate',
-            view_func=self.cas_v3_samlValidate_prox,
-            methods=["POST"]
-        )
+
+        if self.cas_samlValidate_support:
+            self.add_url_rule(
+                '/cas/samlValidate',
+                endpoint='samlvalidate',
+                view_func=self.cas_v3_samlValidate_prox,
+                methods=["POST","GET"]
+            )
+        else:
+            self.add_url_rule(
+                '/cas/samlValidate',
+                endpoint='samlvalidate',
+                view_func=self.notimplemented,
+                methods=["POST","GET"]
+            )
+
         if self.cas_proxy_support:  # Enable proxy support
             self.add_url_rule(
                 '/cas/proxyValidate',
@@ -111,7 +121,7 @@ class CasBridge(CasTicketManager, Blueprint):
             )
 
         # niceness routes - go to login page
-        self.add_url_rule('/cas/<anything>', view_func=self.default_route)
+        # self.add_url_rule('/cas/<anything>', view_func=self.default_route)
         self.add_url_rule('/cas', view_func=self.default_route)
         self.add_url_rule('/cas/', view_func=self.default_route)
 
