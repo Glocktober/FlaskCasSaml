@@ -1,7 +1,7 @@
 # CAS Server for Flask using SAML IDP
  
  ## Introduction
-**FlaskCasSaml** is **Central Authentication Service** (CAS) server that uses a SAML2 server perform the IDP authentication. **FlaskCasSamle** is a Python application utilizing [the Flask web framework]()
+**FlaskCasSaml** is **Central Authentication Service** (CAS) server that uses a SAML2 server perform the IDP authentication. **FlaskCasSaml** is a Python application utilizing [the Flask web framework]()
 
 This allows legacy CAS applications to utilize contemporary Identity Management platform that support SAML2 authentication. The difference between any other CAS server and the bridge is that the authentication dialog is handled by the SAML IdP.
 
